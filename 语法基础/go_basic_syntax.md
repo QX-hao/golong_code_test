@@ -1,4 +1,7 @@
 # Go语言基础语法指南
+参考网址：https://golang.halfiisland.com/essential/base/1.grammer.html#%E5%AF%BC%E5%85%A5
+
+
 
 ## 1. 程序结构
 
@@ -36,7 +39,7 @@ var d string        // 默认初始化为空字符串""
 ```go
 // 相同类型变量声明
 var x, y int = 10, 20
-
+  
 // 不同类型变量声明(使用var块)
 var (
     name string = "John"
