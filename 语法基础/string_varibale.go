@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"strings"
+	"unicode"
+	// "reflect"
 )
 
 // 包含关系
@@ -133,9 +135,72 @@ func TrimDemo() {
 	fmt.Println(strings.TrimSuffix("hello world", " world")) // "hello"
 
 	//自定义规则
+	fmt.Println(strings.TrimFunc(
+		"i am pan qi hao 123123", func(r rune) bool {
+			return unicode.IsDigit(r)
+		}))
+}
+
+// 字符串的替换
+func replaceDemo() {
+	fmt.Println("-----------------")
+	fmt.Println("字符串的替换")
+	fmt.Println("Replace 替换指定子字符串", strings.Replace("hello world", "world", "Golang", 1)) // hello Golang
+	// -1 表示替换所有匹配项
+	fmt.Println("Replace 替换所有匹配项", strings.Replace("hello world", "l", "L", -1)) // heLLo worLd
+
+	// 替换所有匹配项---go-1.12+
+	fmt.Println("ReplaceAll 替换所有匹配项", strings.ReplaceAll("hello world", "l", "L")) // heLLo worLd
+
+	// Map 替换
 	// fmt.Println(
-	// 	strings.TrimFunc("i am pan qi hao 123123",func())
+	// 	strings.Map()
 	// )
+}
+
+// 字符串的切割和连接
+func splitAndJoinDemo() {
+	fmt.Println("-----------------")
+	fmt.Println("字符串的切割")
+
+	// Split 切割字符串
+	fmt.Println("Split 切割字符串", strings.Split("a,b,c", ",")) // [a b c]
+	// SplitN 切割字符串，指定切割次数
+	fmt.Println("SplitN 切割字符串", strings.SplitN("a,b,c", ",", 2)) // [a b,c]
+	//SplitAfter 切割字符串，保留分隔符
+	fmt.Println("SplitAfter 切割字符串", strings.SplitAfter("a,b,c", ",")) // [a, b, c]
+	//Fields 切割字符串，自动去除空白字符
+	fmt.Println("Fields 切割字符串", strings.Fields("a b c")) // [a b c]
+	//FieldsFunc 切割字符串，根据自定义函数判断分隔符
+	// fmt.Println("FieldsFunc 切割字符串", strings.FieldsFunc("a,b,c", func(r rune) bool {
+	// 	return r == ','
+	// })) // [a b c]
+
+	fmt.Println("-----------------")
+	fmt.Println("字符串的连接")
+	// Join 连接字符串
+	fmt.Println("Join 连接字符串", strings.Join([]string{"a", "b", "c"}, ":")) // a,b,c
+	// abc := "sdfghj"
+	// fmt.Println("abc的数据类型", reflect.TypeOf(abc))
+
+	// var bbb = strings.Split("i am panqihao", " ")
+	// fmt.Println("bbb的数据类型", reflect.TypeOf(bbb))
+}
+
+// 重复填充
+func repeatDemo() {
+	fmt.Println("-----------------")
+	fmt.Println("重复填充")
+	fmt.Println("Repeat 重复填充", strings.Repeat("abc", 3)) // abcabcabc
+}
+
+// 字符串遍历
+func rangeDemo() {
+	fmt.Println("-----------------")
+	fmt.Println("字符串遍历")
+	for i, v := range "hello" {
+		fmt.Println("索引:", i, "值:", string(v))
+	}
 }
 
 func main() {
@@ -159,4 +224,16 @@ func main() {
 
 	//字符串的修剪
 	TrimDemo()
+
+	//字符串的替换
+	replaceDemo()
+
+	//字符串的切割和连接
+	splitAndJoinDemo()
+
+	//重复填充
+	repeatDemo()
+
+	//字符串遍历
+	rangeDemo()
 }

@@ -4,9 +4,7 @@ import (
 	"fmt"
 )
 
-func user_info() (string, float64) {
-	var name string
-	var salary float64
+func user_info() (name string, salary float64) {
 
 	fmt.Print("请输入姓名：")
 	fmt.Scanln(&name)
