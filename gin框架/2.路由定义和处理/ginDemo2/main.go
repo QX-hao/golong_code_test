@@ -53,9 +53,16 @@ func main() {
 				},
 			})
 		})
-		v1.DELETE("/users/:id", func(c *gin.Context) {
-			id := c.Param("id")
-			c.String(200, "删除用户ID: %s", id)
+		v1.DELETE("/users/:username", func(c *gin.Context) {
+			username := c.Param("username")
+			c.String(200, "删除用户ID: %s", username)
+			c.JSON(200, gin.H{
+				"code": 200,
+				"msg":  "DELETE 请求成功",
+				"data": gin.H{
+					"username": username,
+				},
+			})
 		})
 	}
 

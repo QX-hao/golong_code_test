@@ -1,0 +1,15 @@
+[GIN-debug] [WARNING] Creating an Engine instance with the Logger and Recovery middleware already attached.
+
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /ping                     --> main.main.func2 (4 handlers)
+[GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
+Please check https://github.com/gin-gonic/gin/blob/master/docs/doc.md#dont-trust-all-proxies for details.
+[GIN-debug] Listening and serving HTTP on :1234
+[GIN] 2025/10/18 - 19:06:26 | 500 |            0s |       127.0.0.1 | GET      "/ping"
+Error #01: 处理过程中发生错误
+[GIN] 2025/10/18 - 19:06:31 | 404 |            0s |       127.0.0.1 | GET      "/"
+[GIN] 2025/10/18 - 19:06:37 | 500 |            0s |       127.0.0.1 | GET      "/ping"
+Error #01: 处理过程中发生错误
