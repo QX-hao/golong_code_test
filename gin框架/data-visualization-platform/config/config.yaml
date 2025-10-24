@@ -1,0 +1,77 @@
+# 数据库配置
+database:
+  default:
+    host: 127.0.0.1
+    port: 3306
+    user: root
+    pwd: password
+    name: data_visualization
+    driver: mysql
+    max_idle_con: 30
+    max_open_con: 100
+
+# 应用配置
+app:
+  # 应用名称
+  name: 数据可视化管理平台
+  # 应用描述
+  description: 基于Go-Admin的数据可视化系统管理平台
+  # 应用版本
+  version: 1.0.0
+  # 运行环境
+  env: local
+  # 调试模式
+  debug: true
+  # 日志级别
+  log_level: info
+
+# 服务器配置
+server:
+  # 服务器地址
+  addr: 0.0.0.0
+  # 服务器端口
+  port: 9033
+  # 域名
+  domain: localhost
+  # 网站标题
+  title: 数据可视化管理平台
+  # 网站描述
+  desc: 专业的数据可视化与管理系统
+  # 网站关键词
+  keywords: 数据可视化,管理系统,Go-Admin
+
+# 主题配置
+theme:
+  # 主题名称
+  name: adminlte
+  # 主题颜色
+  color: blue
+  # 布局
+  layout: fixed
+
+# 语言配置
+language:
+  # 默认语言
+  default: cn
+  # 支持的语言列表
+  allow: [cn, en]
+
+# 文件上传配置
+file_upload:
+  # 上传路径
+  path: ./uploads
+  # 最大文件大小 (MB)
+  max_size: 50
+  # 允许的文件类型
+  allow_type: [jpg, jpeg, png, gif, pdf, doc, docx, xls, xlsx, csv]
+
+# 数据可视化配置
+data_visualization:
+  # 图表类型支持
+  chart_types: [line, bar, pie, radar, scatter, heatmap]
+  # 数据刷新间隔 (秒)
+  refresh_interval: 30
+  # 最大数据点数
+  max_data_points: 1000
+  # 导出格式支持
+  export_formats: [png, jpg, pdf, svg]

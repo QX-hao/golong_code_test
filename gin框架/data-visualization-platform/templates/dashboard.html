@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar { min-height: 100vh; background-color: #343a40; }
+        .sidebar .nav-link { color: #adb5bd; }
+        .sidebar .nav-link:hover { color: #fff; }
+        .sidebar .nav-link.active { color: #fff; background-color: #495057; }
+        .main-content { background-color: #f8f9fa; }
+        .stat-card { border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .chart-container { background: white; border-radius: 10px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 侧边栏 -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+                <div class="position-sticky pt-3">
+                    <div class="text-center mb-4">
+                        <h4 class="text-white">数据可视化平台</h4>
+                    </div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/dashboard">
+                                <i class="bi bi-speedometer2 me-2"></i>仪表板
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/charts">
+                                <i class="bi bi-bar-chart me-2"></i>图表管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/data">
+                                <i class="bi bi-table me-2"></i>数据管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/settings">
+                                <i class="bi bi-gear me-2"></i>系统设置
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- 主内容区域 -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">数据仪表板</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <div class="btn-group me-2">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="refreshData()">
+                                <i class="bi bi-arrow-clockwise"></i> 刷新
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 实时数据卡片 -->
+                <div class="row mb-4">
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="card stat-card bg-primary text-white mb-4">
+                            <div class="card-body text-center">
+                                <i class="bi bi-graph-up-arrow display-4"></i>
+                                <h5>总销售额</h5>
+                                <h3 id="totalSales">¥0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="card stat-card bg-success text-white mb-4">
+                            <div class="card-body text-center">
+                                <i class="bi bi-people display-4"></i>
+                                <h5>用户数量</h5>
+                                <h3 id="userCount">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="card stat-card bg-warning text-white mb-4">
+                            <div class="card-body text-center">
+                                <i class="bi bi-cart display-4"></i>
+                                <h5>订单数量</h5>
+                                <h3 id="orderCount">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="card stat-card bg-info text-white mb-4">
+                            <div class="card-body text-center">
+                                <i class="bi bi-bar-chart display-4"></i>
+                                <h5>增长率</h5>
+                                <h3 id="growthRate">0%</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="card stat-card bg-danger text-white mb-4">
+                            <div class="card-body text-center">
+                                <i class="bi bi-exclamation-triangle display-4"></i>
+                                <h5>异常数据</h5>
+                                <h3 id="alertCount">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="card stat-card bg-secondary text-white mb-4">
+                            <div class="card-body text-center">
+                                <i class="bi bi-clock display-4"></i>
+                                <h5>响应时间</h5>
+                                <h3 id="responseTime">0ms</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 图表区域 -->
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="chart-container">
+                            <h5>销售趋势分析</h5>
+                            <canvas id="salesChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-container">
+                            <h5>用户行为分析</h5>
+                            <canvas id="userBehaviorChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-lg-4">
+                        <div class="chart-container">
+                            <h5>数据来源分布</h5>
+                            <canvas id="sourcePieChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="chart-container">
+                            <h5>实时数据流</h5>
+                            <div id="realtimeData" style="height: 250px; overflow-y: auto;">
+                                <div class="text-center text-muted">
+                                    <i class="bi bi-arrow-repeat"></i> 等待数据更新...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let salesChart, userBehaviorChart, sourcePieChart;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboardData();
+            setInterval(loadDashboardData, 10000); // 每10秒刷新
+        });
+
+        async function loadDashboardData() {
+            await loadStats();
+            await loadCharts();
+            await loadRealtimeData();
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/stats/summary');
+                const result = await response.json();
+                
+                if (result.code === 200) {
+                    const stats = result.data;
+                    document.getElementById('totalSales').textContent = '¥' + (stats.total_value || 0).toLocaleString();
+                    document.getElementById('userCount').textContent = (stats.total_count || 0).toLocaleString();
+                    document.getElementById('orderCount').textContent = (stats.today_count || 0).toLocaleString();
+                    document.getElementById('growthRate').textContent = (stats.avg_value || 0).toFixed(1) + '%';
+                    document.getElementById('alertCount').textContent = (stats.category_count || 0);
+                    document.getElementById('responseTime').textContent = '50ms';
+                }
+            } catch (error) {
+                console.error('加载统计数据失败:', error);
+            }
+        }
+
+        async function loadCharts() {
+            try {
+                const response = await fetch('/api/stats/trends?period=7');
+                const result = await response.json();
+                
+                if (result.code === 200) {
+                    createSalesChart(result.data);
+                    createUserBehaviorChart(result.data);
+                    createSourcePieChart();
+                }
+            } catch (error) {
+                console.error('加载图表数据失败:', error);
+            }
+        }
+
+        function createSalesChart(data) {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            if (salesChart) salesChart.destroy();
+            
+            const dates = data.map(item => item.date.substring(5)); // 只显示月日
+            const values = data.map(item => item.total_value || 0);
+            
+            salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: '销售额',
+                        data: values,
+                        borderColor: 'rgb(54, 162, 235)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createUserBehaviorChart(data) {
+            const ctx = document.getElementById('userBehaviorChart').getContext('2d');
+            
+            if (userBehaviorChart) userBehaviorChart.destroy();
+            
+            const dates = data.map(item => item.date.substring(5));
+            const counts = data.map(item => item.count || 0);
+            
+            userBehaviorChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: '数据量',
+                        data: counts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                        borderColor: 'rgb(75, 192, 192)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        function createSourcePieChart() {
+            const ctx = document.getElementById('sourcePieChart').getContext('2d');
+            
+            if (sourcePieChart) sourcePieChart.destroy();
+            
+            sourcePieChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['销售数据', '用户数据', '订单数据', '系统数据'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: [
+                            'rgb(255, 99, 132)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 205, 86)',
+                            'rgb(75, 192, 192)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        async function loadRealtimeData() {
+            const container = document.getElementById('realtimeData');
+            const now = new Date();
+            
+            const events = [
+                { time: now.toLocaleTimeString(), type: 'info', message: '系统运行正常' },
+                { time: new Date(now.getTime() - 5000).toLocaleTimeString(), type: 'success', message: '数据同步完成' },
+                { time: new Date(now.getTime() - 10000).toLocaleTimeString(), type: 'warning', message: '检测到异常数据点' },
+                { time: new Date(now.getTime() - 15000).toLocaleTimeString(), type: 'info', message: '生成日报表' }
+            ];
+            
+            container.innerHTML = events.map(event => `
+                <div class="d-flex align-items-center mb-2 p-2 border rounded">
+                    <span class="badge bg-${event.type} me-2">${event.type}</span>
+                    <small class="text-muted me-2">${event.time}</small>
+                    <span>${event.message}</span>
+                </div>
+            `).join('');
+        }
+
+        function refreshData() {
+            loadDashboardData();
+            // 显示刷新提示
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-check"></i> 已刷新';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

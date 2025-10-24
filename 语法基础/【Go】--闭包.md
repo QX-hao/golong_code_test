@@ -127,7 +127,7 @@ func main() {
 }
 ```
 
-## 4. 典型应用场景
+## 4. 应用场景
 
 ### 4.1 数据封装（信息隐藏）
 
@@ -299,7 +299,7 @@ func main() {
 }
 ```
 
-## 5. 闭包陷阱与最佳实践
+## 5. 陷阱与实践
 
 ### 5.1 常见陷阱
 
@@ -381,76 +381,5 @@ func createSafeClosure() func() {
     // largeData = nil
     
     return closure
-}
-```
-
-### 5.2 最佳实践
-
-1. **明确变量作用域**：清晰区分局部变量和捕获变量
-2. **避免过度捕获**：只捕获必要的变量
-3. **及时释放资源**：对于大型数据，使用后及时释放引用
-4. **文档化闭包行为**：为复杂的闭包添加注释说明
-5. **测试闭包状态**：确保闭包在不同调用间状态正确
-
-## 6. 性能考虑
-
-### 6.1 性能影响分析
-
-闭包相比普通函数的性能开销：
-- **内存开销**：每个闭包需要额外的内存存储捕获变量
-- **创建开销**：闭包创建比普通函数稍慢
-- **调用开销**：闭包调用与普通函数调用性能相当
-
-### 6.2 优化建议
-
-```go
-// 优化前：频繁创建闭包
-func unoptimized() {
-    for i := 0; i < 1000; i++ {
-        closure := func() {
-            // 处理逻辑
-        }
-        closure()
-    }
-}
-
-// 优化后：复用闭包
-func optimized() {
-    // 在循环外创建闭包
-    closure := func() {
-        // 处理逻辑
-    }
-    
-    for i := 0; i < 1000; i++ {
-        closure() // 复用同一个闭包
-    }
-}
-```
-
-### 6.3 基准测试示例
-
-```go
-func BenchmarkClosure(b *testing.B) {
-    counter := 0
-    closure := func() {
-        counter++
-    }
-    
-    b.ResetTimer()
-    for i := 0; i < b.N; i++ {
-        closure()
-    }
-}
-
-func BenchmarkRegularFunction(b *testing.B) {
-    counter := 0
-    regularFunc := func(c *int) {
-        *c++
-    }
-    
-    b.ResetTimer()
-    for i := 0; i < b.N; i++ {
-        regularFunc(&counter)
-    }
 }
 ```
