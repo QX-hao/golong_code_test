@@ -2,7 +2,7 @@ package test_lock
 
 import (
 	"fmt"
-	"math/rand"
+	// "math/rand"
 	"sync"
 	"time"
 )
@@ -28,24 +28,27 @@ func write(count int)  {
 	rw.Lock()
 	defer rw.Unlock()
 	fmt.Println("goroutine",count,"写操作>>>>>>>")
-	time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
+	// time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
+	time.Sleep(time.Second * 2)
 }
 
 func read(count int)  {
 	defer wg3.Done()
 	fmt.Println("goroutine",count,"<<<<<<<<<读操作")
-	time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
+	// time.Sleep(time.Millisecond * time.Duration(rand.Intn(1000)))
+	time.Sleep(time.Second *2 )
+
 }
 
 func Demo03()  {
 	for i := 0; i < 10; i++ {
 		wg3.Add(1)
-		go read(i)
+		go write(i)
 	}
 
 	for i := 0; i < 10; i++ {
 		wg3.Add(1)
-		go write(i)
+		go read(i)
 	}
 
 	wg3.Wait()
