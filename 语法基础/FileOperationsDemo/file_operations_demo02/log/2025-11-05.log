@@ -1,0 +1,4 @@
+2025-11-05 23:26:47    info:ioutil.WriteFile写入    hello golang
+2025-11-05 23:29:12    info:os.File.Write写入    直接写入的字节切片数据
+2025-11-05 23:29:12    info:os.File.WriteString写入    直接写入的字符串数据
+2025-11-05 23:29:12    info:bufio.Writer.WriteString写入    你好golang

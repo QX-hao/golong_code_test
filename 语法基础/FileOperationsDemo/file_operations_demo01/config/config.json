@@ -1,0 +1,76 @@
+{
+    "user_info": {
+        "name": "张三",
+        "age": 25,
+        "email": "zhangsan@example.com",
+        "phone": "13800138000",
+        "address": "北京市朝阳区",
+        "is_active": true,
+        "registration_date": "2023-05-15"
+    },
+    "system_config": {
+        "app_name": "文件操作演示系统",
+        "version": "1.2.3",
+        "debug_mode": false,
+        "max_file_size": 10485760,
+        "allowed_extensions": ["txt", "json", "xml", "csv"],
+        "log_level": "info",
+        "backup_enabled": true
+    },
+    "database_config": {
+        "host": "localhost",
+        "port": 5432,
+        "username": "admin",
+        "password": "secure_password_123",
+        "database_name": "file_operations_db",
+        "connection_timeout": 30,
+        "max_connections": 100
+    },
+    "api_endpoints": {
+        "users": "/api/v1/users",
+        "files": "/api/v1/files",
+        "upload": "/api/v1/upload",
+        "download": "/api/v1/download",
+        "search": "/api/v1/search"
+    },
+    "test_data": {
+        "sample_text": "这是一个用于测试文件操作的示例文本内容。包含中文字符、英文字母和数字123。",
+        "numbers": [1, 2, 3, 5, 8, 13, 21, 34, 55, 89],
+        "boolean_values": [true, false, true, true, false],
+        "mixed_data": {
+            "string": "混合数据类型测试",
+            "number": 42,
+            "boolean": true,
+            "null_value": null,
+            "array": ["item1", "item2", "item3"]
+        }
+    },
+    "performance_settings": {
+        "cache_size": 1024,
+        "thread_pool_size": 8,
+        "timeout": 5000,
+        "retry_attempts": 3,
+        "compression_enabled": true,
+        "encryption_level": "high"
+    },
+    "localization": {
+        "language": "zh-CN",
+        "timezone": "Asia/Shanghai",
+        "date_format": "YYYY-MM-DD",
+        "currency": "CNY",
+        "decimal_separator": ".",
+        "thousands_separator": ","
+    },
+    "security_settings": {
+        "password_policy": {
+            "min_length": 8,
+            "require_uppercase": true,
+            "require_lowercase": true,
+            "require_numbers": true,
+            "require_special_chars": true
+        },
+        "session_timeout": 3600,
+        "max_login_attempts": 5,
+        "two_factor_auth": false
+    }
+}
