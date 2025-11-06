@@ -9,7 +9,6 @@ import (
 // 方法二:
 // 利用os.Open os.Read(流处理)和os.OpenFile 方法复制文件
 
-
 func CopyFile2(filename string,newFilename string)  {
 	var buf_all []byte
 	if file,err := os.Open(filename); err != nil{
