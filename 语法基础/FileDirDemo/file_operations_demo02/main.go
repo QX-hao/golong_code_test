@@ -8,7 +8,6 @@ import (
 
 // 文件操作 -- 写入
 
-
 func main()  {
 	// 写入文件(方法1) - 直接写入文件
 	file := FileWrite.FileWrite1("log/"+time.Now().Format("2006-01-02")+".log",os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
