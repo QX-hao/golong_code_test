@@ -1,38 +1,20 @@
 package main
 
 import (
-	"log"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-
+	"gormdemo01/connectmysql"
 )
 
-type CarInfo struct {
-	Id int
-	Brand string
-	Model string
-	Configuration string
-	Range_km float64
-}
-
-// Tablename 自定义表名
-func (CarInfo) Tablename() string {
-	return "car_info"
-}
-
-func main()  {
-	dsn := "root:123456@tcp(127.0.0.1:3306)/doncar_top?charset=utf8mb4&parseTime=True&loc=Local"
-	db,err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil{
-		log.Fatal("数据库连接失败", err)
-	}
-	log.Println("数据库连接成功")
-	defer func () {
-		sqlDB, _ := db.DB()
-		db.Find(&CarInfo{})
-
-		log.Println("查询到的car_info表数据:", a)
-		
-		sqlDB.Close()
-	}()
+func main() {
+	// 连接数据库
+	db := connectmysql.ConnectMysqlUsers()
+	// 插入数据
+	connectmysql.InsertUser(db)
+	// 查询数据
+	connectmysql.SelectUser(db)
+	// 更新数据
+	connectmysql.UpdateUser(db)
+	// 删除数据
+	connectmysql.DeleteUser(db)
+	// 关闭数据库连接
+	connectmysql.CloseDB(db)
 }
