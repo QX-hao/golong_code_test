@@ -1,4 +1,4 @@
-module demo05
+module demo07
 
 go 1.24.7
 

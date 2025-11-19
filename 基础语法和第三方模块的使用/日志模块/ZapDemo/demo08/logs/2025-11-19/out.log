@@ -1,0 +1,5 @@
+[myApp] 2025-11-19 12:35:32	[34mINFO[0m	demo08/main.go:101	this is info
+[myApp] 2025-11-19 12:35:32	[33mWARN[0m	demo08/main.go:102	this is warn
+[myApp] 2025-11-19 12:35:32	[31mERROR[0m	demo08/main.go:103	this is error1
+[myApp] 2025-11-19 12:35:32	[31mERROR[0m	demo08/main.go:104	this is error2
+[myApp] 2025-11-19 12:35:32	[34mINFO[0m	demo08/main.go:105	fengfeng xxx
