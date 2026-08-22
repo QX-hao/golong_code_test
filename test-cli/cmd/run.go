@@ -1,6 +1,8 @@
 /*
 Copyright © 2026 NAME HERE <EMAIL ADDRESS>
 */
+
+// cobra-cli add <创建子命令>
 package cmd
 
 import (
@@ -19,8 +21,29 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
+
+	// PreRun 只针对当前命令执行，不会被子命令继承. 先执行prerun后run
+	PreRun: func(cmd *cobra.Command, args []string) {
+		fmt.Println("run 的 PreRun")
+	},
+
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run 子命令执行成功")
+		if verbose {
+			fmt.Println("执行成功,参数为:verbose")
+		} else {
+			fmt.Println("run 子命令执行成功")
+		}
+	},
+
+	// PostRun 只针对当前命令执行，不会被子命令继承. 先执行run后postrun
+	/*
+	输出执行结果
+	关闭当前命令创建的资源
+	记录耗时
+	*/
+
+	PostRun: func(cmd *cobra.Command, args []string) {
+		fmt.Println("run 的 PostRun")
 	},
 }
 
